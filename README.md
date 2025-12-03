@@ -2,10 +2,10 @@
 
 > Comprehensive analysis of UK-based online retail transactions featuring customer segmentation, retention analysis, and revenue trends
 
-[![Tableau Public](https://img.shields.io/badge/Tableau-Public-blue)](https://public.tableau.com/app/profile/erick.chung)
+[![Tableau Public](https://img.shields.io/badge/Tableau-Public-blue)](https://public.tableau.com/views/Ecommerce_Analytics_Dashboard/Home)
 [![SQL](https://img.shields.io/badge/SQL-PostgreSQL-336791)](https://www.postgresql.org/)
 
-**[🔗 View Live Dashboard on Tableau Public](https://public.tableau.com/app/profile/erick.chung)**
+**[🔗 View Live Dashboard on Tableau Public](https://public.tableau.com/views/Ecommerce_Analytics_Dashboard/Home)**
 
 ---
 
@@ -34,30 +34,29 @@ This project analyzes **2 years of e-commerce transaction data** (Dec 2009 - Dec
 **Tools & Technologies:**
 - **PostgreSQL** - Data extraction, transformation, and analysis
 - **Tableau** - Interactive dashboard and visualizations
-- **Python** - Data preprocessing and validation
 
 ---
 
 ## 🖼️ Dashboard Preview
 
 ### Home Page
-![Home Page](images/home_page.png)
+![Home Page](retail-analysis-project/images/home_page.png)
 *Dashboard overview with navigation to all analysis sections*
 
 ### Customer Retention Analysis
-![Customer Retention](images/customer_retention.png)
+![Customer Retention](retail-analysis-project/images/customer_retention.png)
 *Cohort-based retention heatmap showing customer engagement over time*
 
 ### Revenue Performance
-![Revenue Performance](images/revenue_performance.png)
+![Revenue Performance](retail-analysis-project/images/revenue_performance.png)
 *Year-over-year growth trends and 3-month rolling averages*
 
 ### Customer Segmentation  
-![Customer Segmentation](images/customer_segmentation.png)
+![Customer Segmentation](retail-analysis-project/images/customer_segmentation.png)
 *RFM analysis and geographic revenue distribution*
 
 ### Product & Operations
-![Product & Operations](images/product_operations.png)
+![Product & Operations](retail-analysis-project/images/product_operations.png)
 *Market basket analysis and cancellation trends*
 
 ---
@@ -191,7 +190,6 @@ SUM(CASE WHEN transaction_type = 'Regular' THEN total_value ELSE 0 END) AS regul
 ```bash
 - PostgreSQL 12+
 - Tableau Desktop or Tableau Public
-- Python 3.8+ (optional, for data preprocessing)
 ```
 
 ### Setup Instructions
@@ -244,12 +242,13 @@ ecommerce-analytics-dashboard/
 │   ├── 05_top_customers_by_country.sql
 │   ├── 06_cancellation_analysis.sql
 │   └── 07_rolling_revenue_averages.sql
-└── images/                             # Dashboard screenshots
-    ├── home_page.png
-    ├── customer_retention.png
-    ├── revenue_performance.png
-    ├── customer_segmentation.png
-    └── product_operations.png
+└── retail-analysis-project/
+    └── images/                         # Dashboard screenshots
+        ├── home_page.png
+        ├── customer_retention.png
+        ├── revenue_performance.png
+        ├── customer_segmentation.png
+        └── product_operations.png
 ```
 
 ---
