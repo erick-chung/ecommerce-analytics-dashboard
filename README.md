@@ -2,21 +2,26 @@
 
 > Comprehensive analysis of UK-based online retail transactions featuring customer segmentation, retention analysis, and revenue trends
 
-[![Tableau Public](https://img.shields.io/badge/Tableau-Public-blue)](https://public.tableau.com/views/Ecommerce_Analytics_Dashboard/Home)
+[![Tableau Public](https://img.shields.io/badge/Tableau-Public-blue)](https://public.tableau.com/app/profile/erick.chung/viz/Ecommerce_Analytics_Dashboard/HomePage)
 [![SQL](https://img.shields.io/badge/SQL-PostgreSQL-336791)](https://www.postgresql.org/)
 
-**[🔗 View Live Dashboard on Tableau Public](https://public.tableau.com/views/Ecommerce_Analytics_Dashboard/Home)**
+**[🔗 View Live Dashboard on Tableau Public](https://public.tableau.com/app/profile/erick.chung/viz/Ecommerce_Analytics_Dashboard/HomePage)**
 
 ---
 
 ## 📋 Table of Contents
-- [Project Overview](#project-overview)
-- [Dashboard Preview](#dashboard-preview)
-- [Business Questions](#business-questions)
-- [Key Insights](#key-insights)
-- [Technical Implementation](#technical-implementation)
-- [Data Schema](#data-schema)
-- [Installation & Usage](#installation--usage)
+- [Project Overview](#-project-overview)
+- [Dashboard Preview](#-dashboard-preview)
+- [Business Questions](#-business-questions)
+- [Key Insights](#-key-insights)
+- [Technical Implementation](#-technical-implementation)
+- [Data Schema](#-data-schema)
+- [Installation & Usage](#-installation--usage)
+- [Repository Structure](#-repository-structure)
+- [Skills Demonstrated](#-skills-demonstrated)
+- [Future Enhancements](#-future-enhancements)
+- [Contact](#-contact)
+- [License & Attribution](#-license--attribution)
 
 ---
 
