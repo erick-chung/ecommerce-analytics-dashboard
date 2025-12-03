@@ -127,33 +127,130 @@ This analysis answers critical business questions:
 **Advanced Window Functions:**
 ```sql
 -- Year-over-year growth using LAG
-LAG(revenue, 12) OVER (ORDER BY month) AS revenue_year_ago
-
--- Customer segmentation using NTILE
-NTILE(5) OVER (ORDER BY recency_days ASC) AS recency_score
+WITH monthly_revenue AS (
+    SELECT 
+        DATE_TRUNC('month', invoice_date)::DATE AS month,
+        SUM(quantity * price) AS revenue
+    FROM transactions
+    WHERE invoice NOT LIKE 'C%'
+    GROUP BY DATE_TRUNC('month', invoice_date)
+)
+SELECT 
+    month,
+    revenue,
+    LAG(revenue, 12) OVER (ORDER BY month) AS revenue_year_ago,
+    ROUND(((revenue - LAG(revenue, 12) OVER (ORDER BY month)) / 
+           LAG(revenue, 12) OVER (ORDER BY month) * 100), 2) AS yoy_growth_pct
+FROM monthly_revenue;
 ```
 
-**Complex CTEs:**
+**Customer Segmentation with NTILE:**
 ```sql
--- 4-level CTE for cohort retention
-WITH first_purchase AS (...),
-     customer_activity AS (...),
-     cohort_size AS (...),
-     retention_data AS (...)
+-- RFM scoring using quintile-based window functions
+WITH customer_metrics AS (
+    SELECT 
+        customer_id,
+        MAX(invoice_date) AS last_purchase,
+        COUNT(DISTINCT invoice) AS frequency,
+        SUM(quantity * price) AS monetary_value
+    FROM transactions
+    WHERE invoice NOT LIKE 'C%'
+    GROUP BY customer_id
+)
+SELECT 
+    customer_id,
+    NTILE(5) OVER (ORDER BY last_purchase DESC) AS recency_score,
+    NTILE(5) OVER (ORDER BY frequency) AS frequency_score,
+    NTILE(5) OVER (ORDER BY monetary_value) AS monetary_score
+FROM customer_metrics;
 ```
 
-**Self-Joins for Market Basket:**
+**Complex Multi-Level CTEs:**
 ```sql
--- Product affinity analysis
+-- 4-level CTE for cohort retention analysis
+WITH first_purchase AS (
+    SELECT 
+        customer_id,
+        DATE_TRUNC('month', MIN(invoice_date))::DATE AS cohort_month
+    FROM transactions
+    WHERE invoice NOT LIKE 'C%'
+    GROUP BY customer_id
+),
+customer_activity AS (
+    SELECT 
+        t.customer_id,
+        fp.cohort_month,
+        DATE_TRUNC('month', t.invoice_date)::DATE AS activity_month
+    FROM transactions t
+    JOIN first_purchase fp ON t.customer_id = fp.customer_id
+    WHERE t.invoice NOT LIKE 'C%'
+    GROUP BY t.customer_id, fp.cohort_month, DATE_TRUNC('month', t.invoice_date)
+),
+cohort_size AS (
+    SELECT 
+        cohort_month,
+        COUNT(DISTINCT customer_id) AS cohort_customers
+    FROM first_purchase
+    GROUP BY cohort_month
+),
+retention_data AS (
+    SELECT 
+        ca.cohort_month,
+        ca.activity_month,
+        COUNT(DISTINCT ca.customer_id) AS active_customers,
+        cs.cohort_customers,
+        (EXTRACT(YEAR FROM AGE(ca.activity_month, ca.cohort_month)) * 12 + 
+         EXTRACT(MONTH FROM AGE(ca.activity_month, ca.cohort_month)))::INTEGER AS months_since_first
+    FROM customer_activity ca
+    JOIN cohort_size cs ON ca.cohort_month = cs.cohort_month
+    GROUP BY ca.cohort_month, ca.activity_month, cs.cohort_customers
+)
+SELECT 
+    cohort_month,
+    months_since_first,
+    ROUND((active_customers::NUMERIC / cohort_customers * 100), 2) AS retention_pct
+FROM retention_data
+ORDER BY cohort_month, months_since_first;
+```
+
+**Self-Joins for Market Basket Analysis:**
+```sql
+-- Product affinity using self-join
+WITH filtered_transactions AS (
+    SELECT invoice, stock_code, description
+    FROM transactions
+    WHERE invoice NOT LIKE 'C%'
+        AND description IS NOT NULL
+        AND invoice_date BETWEEN '2011-12-01' AND '2011-12-31'
+)
+SELECT 
+    t1.description AS product_a,
+    t2.description AS product_b,
+    COUNT(*) AS times_bought_together
 FROM filtered_transactions t1
 JOIN filtered_transactions t2 
-  ON t1.invoice = t2.invoice 
-  AND t1.stock_code < t2.stock_code
+    ON t1.invoice = t2.invoice 
+    AND t1.stock_code < t2.stock_code
+GROUP BY t1.description, t2.description
+HAVING COUNT(*) >= 15
+ORDER BY times_bought_together DESC
+LIMIT 20;
 ```
 
 **Conditional Aggregations:**
 ```sql
-SUM(CASE WHEN transaction_type = 'Regular' THEN total_value ELSE 0 END) AS regular_revenue
+-- Cancellation analysis with conditional aggregation
+SELECT 
+    DATE_TRUNC('month', invoice_date)::DATE AS month,
+    SUM(CASE WHEN invoice LIKE 'C%' THEN 1 ELSE 0 END) AS cancelled_orders,
+    SUM(CASE WHEN invoice NOT LIKE 'C%' THEN 1 ELSE 0 END) AS regular_orders,
+    ROUND(
+        SUM(CASE WHEN invoice LIKE 'C%' THEN 1 ELSE 0 END)::NUMERIC / 
+        COUNT(*) * 100, 2
+    ) AS cancellation_rate_pct
+FROM transactions
+GROUP BY DATE_TRUNC('month', invoice_date)
+ORDER BY month;
 ```
 
 ### Queries Included
@@ -170,7 +267,7 @@ SUM(CASE WHEN transaction_type = 'Regular' THEN total_value ELSE 0 END) AS regul
 
 ## 📊 Data Schema
 
-**Dataset:** Online Retail II (UCI Machine Learning Repository via Kaggle)
+**Dataset:** Online Retail II (Kaggle)
 
 **Key Tables:**
 - `transactions` - Main fact table with 1M+ records
@@ -206,7 +303,7 @@ cd ecommerce-analytics-dashboard
 ```
 
 2. **Download the dataset:**
-   - [Online Retail II UCI (Kaggle)](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci)
+   - [Online Retail II UCI (Kaggle)](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci/data)
 
 3. **Load data into PostgreSQL:**
 ```sql
@@ -303,8 +400,7 @@ ecommerce-analytics-dashboard/
 
 ## 📄 License & Attribution
 
-**Dataset:** [Online Retail II UCI (Kaggle)](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci)  
-Originally from UCI Machine Learning Repository
+**Dataset:** [Online Retail II UCI (Kaggle)](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci/data)
 
 ---
 
