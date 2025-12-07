@@ -135,9 +135,9 @@ This dashboard answers critical business questions through **4 core visualizatio
 
 ### SQL Techniques Demonstrated
 
-#### Advanced Window Functions:
+#### Advanced Window Functions (LAG):
 ```sql
--- Year-over-year growth using LAG
+-- Monthly revenue with year-over-year growth analysis
 WITH monthly_revenue AS (
     SELECT 
         DATE_TRUNC('month', invoice_date)::DATE AS month,
@@ -145,46 +145,121 @@ WITH monthly_revenue AS (
     FROM transactions
     WHERE invoice NOT LIKE 'C%'
     GROUP BY DATE_TRUNC('month', invoice_date)
+),
+revenue_with_comparisons AS (
+    SELECT 
+        month,
+        revenue,
+        LAG(revenue, 12) OVER (ORDER BY month) AS revenue_year_ago
+    FROM monthly_revenue
 )
 SELECT 
     month,
-    revenue,
-    LAG(revenue, 12) OVER (ORDER BY month) AS revenue_year_ago,
-    ROUND(((revenue - LAG(revenue, 12) OVER (ORDER BY month)) / 
-           LAG(revenue, 12) OVER (ORDER BY month) * 100), 2) AS yoy_growth_pct
-FROM monthly_revenue;
+    ROUND(revenue, 2) AS revenue,
+    ROUND(revenue_year_ago, 2) AS revenue_year_ago,
+    ROUND(
+        CASE 
+            WHEN revenue_year_ago IS NULL THEN NULL
+            ELSE ((revenue - revenue_year_ago) / revenue_year_ago * 100)
+        END, 
+    2) AS yoy_growth_pct
+FROM revenue_with_comparisons
+ORDER BY month;
 ```
 
 #### Customer Segmentation with NTILE:
 ```sql
--- RFM scoring using quintile-based window functions
-WITH customer_metrics AS (
+-- RFM (Recency, Frequency, Monetary) customer segmentation analysis
+WITH dataset_end AS (
+    SELECT MAX(invoice_date) AS max_date
+    FROM transactions
+    WHERE invoice NOT LIKE 'C%'
+),
+customer_metrics AS (
     SELECT 
         customer_id,
-        MAX(invoice_date) AS last_purchase,
+        (SELECT max_date FROM dataset_end) - MAX(invoice_date) AS recency_days,
         COUNT(DISTINCT invoice) AS frequency,
         SUM(quantity * price) AS monetary_value
     FROM transactions
-    WHERE invoice NOT LIKE 'C%'
+    WHERE invoice NOT LIKE 'C%' 
+        AND customer_id IS NOT NULL
     GROUP BY customer_id
+),
+rfm_scores AS (
+    SELECT 
+        customer_id,
+        recency_days,
+        frequency,
+        monetary_value,
+        NTILE(5) OVER (ORDER BY recency_days ASC) AS recency_score,
+        NTILE(5) OVER (ORDER BY frequency) AS frequency_score,
+        NTILE(5) OVER (ORDER BY monetary_value) AS monetary_score
+    FROM customer_metrics
 )
 SELECT 
     customer_id,
-    NTILE(5) OVER (ORDER BY last_purchase DESC) AS recency_score,
-    NTILE(5) OVER (ORDER BY frequency) AS frequency_score,
-    NTILE(5) OVER (ORDER BY monetary_value) AS monetary_score
-FROM customer_metrics;
+    recency_days,
+    frequency,
+    ROUND(monetary_value, 2) AS monetary_value,
+    recency_score,
+    frequency_score,
+    monetary_score,
+    CASE 
+        WHEN recency_score >= 4 AND frequency_score >= 4 THEN 'Champions'
+        WHEN recency_score >= 3 AND frequency_score >= 3 THEN 'Loyal Customers'
+        WHEN recency_score >= 4 AND frequency_score <= 2 THEN 'Promising'
+        WHEN recency_score <= 2 AND frequency_score >= 3 THEN 'At Risk'
+        WHEN recency_score <= 2 AND frequency_score <= 2 THEN 'Lost'
+        ELSE 'Regular'
+    END AS customer_segment
+FROM rfm_scores
+ORDER BY monetary_value DESC;
+```
+
+#### Self-Joins for Market Basket Analysis:
+```sql
+-- Market Basket Analysis: Holiday shopping patterns (December 2011)
+WITH filtered_transactions AS (
+    SELECT 
+        invoice,
+        stock_code,
+        description
+    FROM transactions
+    WHERE invoice NOT LIKE 'C%'
+        AND description IS NOT NULL
+        AND invoice_date BETWEEN '2011-12-01' AND '2011-12-31'
+),
+product_pairs AS (
+    SELECT 
+        t1.description AS product_a,
+        t2.description AS product_b
+    FROM filtered_transactions t1
+    JOIN filtered_transactions t2 
+        ON t1.invoice = t2.invoice 
+        AND t1.stock_code < t2.stock_code
+)
+SELECT 
+    product_a,
+    product_b,
+    COUNT(*) AS times_bought_together
+FROM product_pairs
+GROUP BY product_a, product_b
+HAVING COUNT(*) >= 15
+ORDER BY times_bought_together DESC
+LIMIT 20;
 ```
 
 #### Complex Multi-Level CTEs:
 ```sql
--- 4-level CTE for cohort retention analysis
+-- Customer cohort retention analysis
 WITH first_purchase AS (
     SELECT 
         customer_id,
         DATE_TRUNC('month', MIN(invoice_date))::DATE AS cohort_month
     FROM transactions
     WHERE invoice NOT LIKE 'C%'
+        AND customer_id IS NOT NULL
     GROUP BY customer_id
 ),
 customer_activity AS (
@@ -219,49 +294,12 @@ retention_data AS (
 SELECT 
     cohort_month,
     months_since_first,
+    cohort_customers,
+    active_customers,
     ROUND((active_customers::NUMERIC / cohort_customers * 100), 2) AS retention_pct
 FROM retention_data
+WHERE cohort_month >= '2011-01-01'
 ORDER BY cohort_month, months_since_first;
-```
-
-#### Self-Joins for Market Basket Analysis:
-```sql
--- Product affinity using self-join
-WITH filtered_transactions AS (
-    SELECT invoice, stock_code, description
-    FROM transactions
-    WHERE invoice NOT LIKE 'C%'
-        AND description IS NOT NULL
-        AND invoice_date BETWEEN '2011-12-01' AND '2011-12-31'
-)
-SELECT 
-    t1.description AS product_a,
-    t2.description AS product_b,
-    COUNT(*) AS times_bought_together
-FROM filtered_transactions t1
-JOIN filtered_transactions t2 
-    ON t1.invoice = t2.invoice 
-    AND t1.stock_code < t2.stock_code
-GROUP BY t1.description, t2.description
-HAVING COUNT(*) >= 15
-ORDER BY times_bought_together DESC
-LIMIT 20;
-```
-
-#### Conditional Aggregations:
-```sql
--- Cancellation analysis with conditional aggregation
-SELECT 
-    DATE_TRUNC('month', invoice_date)::DATE AS month,
-    SUM(CASE WHEN invoice LIKE 'C%' THEN 1 ELSE 0 END) AS cancelled_orders,
-    SUM(CASE WHEN invoice NOT LIKE 'C%' THEN 1 ELSE 0 END) AS regular_orders,
-    ROUND(
-        SUM(CASE WHEN invoice LIKE 'C%' THEN 1 ELSE 0 END)::NUMERIC / 
-        COUNT(*) * 100, 2
-    ) AS cancellation_rate_pct
-FROM transactions
-GROUP BY DATE_TRUNC('month', invoice_date)
-ORDER BY month;
 ```
 
 ### Queries Included
@@ -308,8 +346,8 @@ ORDER BY month;
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/erick-chung/ecommerce-analytics-dashboard.git
-cd ecommerce-analytics-dashboard
+git clone https://github.com/YOUR_USERNAME/retail-analysis-project.git
+cd retail-analysis-project
 ```
 
 2. **Download the dataset:**
@@ -332,7 +370,7 @@ COPY transactions FROM '/path/to/data.csv' DELIMITER ',' CSV HEADER;
 ```
 
 4. **Run SQL queries:**
-   - Navigate to `retail-analysis-project/sql/` folder
+   - Navigate to `sql/` folder
    - Execute queries in order (01-07)
    - Export results as CSV
 
@@ -344,19 +382,17 @@ COPY transactions FROM '/path/to/data.csv' DELIMITER ',' CSV HEADER;
 
 ## 📁 Repository Structure
 ```
-ecommerce-analytics-dashboard/
-├── README.md                           # Project documentation
-└── retail-analysis-project/            # Main project folder
-    ├── sql/                            # SQL analysis queries (7 total)
-    │   ├── 01_monthly_revenue_trends.sql          # Visualized on dashboard
-    │   ├── 02_rfm_customer_segmentation.sql       # Visualized on dashboard
-    │   ├── 03_product_affinity_analysis.sql       # Visualized on dashboard
-    │   ├── 04_customer_cohort_retention.sql       # Visualized on dashboard
-    │   ├── 05_top_customers_by_country.sql        # Portfolio depth
-    │   ├── 06_cancellation_analysis.sql           # Portfolio depth
-    │   └── 07_rolling_revenue_averages.sql        # Portfolio depth
-    └── images/                         # Dashboard screenshots
-        └── dashboard.png               # Full dashboard view
+retail-analysis-project/
+├── sql/                                # SQL analysis queries (7 total)
+│   ├── 01_monthly_revenue_trends.sql          # Visualized on dashboard
+│   ├── 02_rfm_customer_segmentation.sql       # Visualized on dashboard
+│   ├── 03_product_affinity_analysis.sql       # Visualized on dashboard
+│   ├── 04_customer_cohort_retention.sql       # Visualized on dashboard
+│   ├── 05_top_customers_by_country.sql        # Portfolio depth
+│   ├── 06_cancellation_analysis.sql           # Portfolio depth
+│   └── 07_rolling_revenue_averages.sql        # Portfolio depth
+└── images/                             # Dashboard screenshots
+    └── dashboard.png                   # Full dashboard view
 ```
 
 ---
