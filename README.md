@@ -1,27 +1,27 @@
 # 📊 E-Commerce Analytics Dashboard
 
-> Comprehensive analysis of UK-based online retail transactions featuring customer segmentation, retention analysis, and revenue trends
+Comprehensive single-page analytics dashboard analyzing UK-based online retail transactions featuring customer retention, RFM segmentation, revenue trends, and product affinity analysis.
 
-[![Tableau Public](https://img.shields.io/badge/Tableau-Public-blue)](https://public.tableau.com/app/profile/erick.chung/viz/Ecommerce_Analytics_Dashboard/HomePage)
-[![SQL](https://img.shields.io/badge/SQL-PostgreSQL-336791)](https://www.postgresql.org/)
+[![Tableau](https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=Tableau&logoColor=white)](https://public.tableau.com/shared/32F2PJMGT?:display_count=n&:origin=viz_share_link)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 
-**[🔗 View Live Dashboard on Tableau Public](https://public.tableau.com/app/profile/erick.chung/viz/Ecommerce_Analytics_Dashboard/HomePage)**
+## 🔗 [View Live Dashboard on Tableau Public](https://public.tableau.com/shared/32F2PJMGT?:display_count=n&:origin=viz_share_link)
 
 ---
 
 ## 📋 Table of Contents
-- [Project Overview](#-project-overview)
-- [Dashboard Preview](#-dashboard-preview)
-- [Business Questions](#-business-questions)
-- [Key Insights](#-key-insights)
-- [Technical Implementation](#-technical-implementation)
-- [Data Schema](#-data-schema)
-- [Installation & Usage](#-installation--usage)
-- [Repository Structure](#-repository-structure)
-- [Skills Demonstrated](#-skills-demonstrated)
-- [Future Enhancements](#-future-enhancements)
-- [Contact](#-contact)
-- [License & Attribution](#-license--attribution)
+- [Project Overview](#project-overview)
+- [Dashboard Preview](#dashboard-preview)
+- [Business Questions](#business-questions)
+- [Key Insights](#key-insights)
+- [Technical Implementation](#technical-implementation)
+- [Data Schema](#data-schema)
+- [Installation & Usage](#installation--usage)
+- [Repository Structure](#repository-structure)
+- [Skills Demonstrated](#skills-demonstrated)
+- [Future Enhancements](#future-enhancements)
+- [Contact](#contact)
+- [License & Attribution](#license--attribution)
 
 ---
 
@@ -29,102 +29,114 @@
 
 This project analyzes **2 years of e-commerce transaction data** (Dec 2009 - Dec 2011) from a UK-based online gift-ware retailer serving both B2B and B2C customers.
 
-**Objectives:**
+### Objectives:
 - Understand customer retention patterns and identify churn risks
-- Analyze revenue trends and growth opportunities  
+- Analyze revenue trends and growth opportunities
 - Segment customers for targeted marketing strategies
 - Identify product bundling opportunities
-- Measure operational efficiency through cancellation analysis
 
-**Tools & Technologies:**
-- **PostgreSQL** - Data extraction, transformation, and analysis
-- **Tableau** - Interactive dashboard and visualizations
+### Tools & Technologies:
+- **PostgreSQL** - Data extraction, transformation, and analysis (7 advanced SQL queries)
+- **Tableau** - Interactive single-page executive dashboard
 
 ---
 
 ## 🖼️ Dashboard Preview
 
-### Home Page
-![Home Page](retail-analysis-project/images/home_page.png)
-*Dashboard overview with navigation to all analysis sections*
+![E-Commerce Analytics Dashboard](images/dashboard_main.png)
 
-### Customer Retention Analysis
-![Customer Retention](retail-analysis-project/images/customer_retention.png)
-*Cohort-based retention heatmap showing customer engagement over time*
+### Single-Page Executive Dashboard featuring:
 
-### Revenue Performance
-![Revenue Performance](retail-analysis-project/images/revenue_performance.png)
-*Year-over-year growth trends and 3-month rolling averages*
+**5 KPI Cards:**
+- Total Revenue: **$20.8M**
+- Total Customers: **5,881**
+- Avg Order Value: **$25.25**
+- Peak YoY Growth: **+52.9%**
+- At Risk Customers: **32.4%**
 
-### Customer Segmentation  
-![Customer Segmentation](retail-analysis-project/images/customer_segmentation.png)
-*RFM analysis and geographic revenue distribution*
-
-### Product & Operations
-![Product & Operations](retail-analysis-project/images/product_operations.png)
-*Market basket analysis and cancellation trends*
+**4 Core Visualizations:**
+- **Cohort Retention Heatmap** - Customer retention patterns by monthly cohorts
+- **Revenue Growth Analysis** - Year-over-year revenue trends with dual-axis visualization
+- **RFM Customer Segmentation** - Customer classification across 6 behavioral segments
+- **Product Affinity Analysis** - Top 10 product pairs frequently purchased together
 
 ---
 
 ## 💼 Business Questions
 
-This analysis answers critical business questions:
+This dashboard answers critical business questions through **4 core visualizations**:
 
-1. **Customer Retention:**
-   - How well do we retain customers month-over-month?
-   - Which cohorts have the best/worst retention rates?
-   - When do customers typically churn?
+### Customer Retention:
+- How well do we retain customers month-over-month?
+- Which cohorts show the strongest/weakest retention?
+- When does customer churn occur most dramatically?
 
-2. **Revenue Analysis:**
-   - What are our year-over-year growth trends?
-   - How does seasonal variation impact revenue?
-   - Which months show exceptional or poor performance?
+### Revenue Performance:
+- What are our year-over-year growth trends?
+- Which periods show exceptional or declining performance?
+- How does revenue volatility impact business planning?
 
-3. **Customer Segmentation:**
-   - Who are our most valuable customers?
-   - Which customers are at risk of churning?
-   - How is our customer base distributed geographically?
+### Customer Value:
+- Who are our most valuable customer segments?
+- What percentage of customers are at risk of churning?
+- How should we prioritize retention efforts?
 
-4. **Product & Operations:**
-   - Which products are frequently bought together?
-   - What is our cancellation rate and revenue impact?
-   - How do holiday shopping patterns differ?
+### Product Strategy:
+- Which products are frequently bought together?
+- What bundling opportunities exist?
+- How can we optimize cross-sell strategies?
 
 ---
 
 ## 🔍 Key Insights
 
 ### Customer Behavior
-- **32% of customers** classified as "At Risk" - previously active but disengaging
-- **26% "Promising" segment** represents recent buyers with growth potential  
-- Retention drops **significantly after Month 1**, stabilizing around 20% by Month 6
-- Only **6% Champions** but they drive disproportionate revenue
+- **32.4% of customers classified as "At Risk"** - previously active buyers showing disengagement signals
+- **1,907 At Risk customers** represent significant revenue retention opportunity
+- **Cohort retention drops 75-85% after Month 1**, stabilizing around 15-20% by Month 3
+- **346 Champions** (5.9% of customer base) drive disproportionate value
 
-### Revenue Trends
-- **52.9% YoY growth** in December 2010 - strongest performance period
-- November 2011 shows **highest monthly revenue** at $1.51M
-- Revenue stabilized around **$700-900K baseline** through mid-2011
-- 3-month rolling average smooths volatility by **40-50%**
+### Revenue Performance
+- **$20.8M total revenue** across 2+ years of transaction data
+- **+52.9% peak YoY growth** in December 2010 - strongest performance period
+- **$25.25 average order value** indicates gift-ware/small item transaction patterns
+- Revenue trends show seasonal peaks in Q4 (holiday shopping)
 
-### Geographic Distribution
-- **United Kingdom dominates** with $14.7M (85% of top 10 revenue)
-- **Geographic concentration risk:** 94% of top 10 customers are UK-based
-- Germany (107 customers) and France (95 customers) are largest secondary markets
-- EIRE shows highest customer value despite only 5 customers
+### Customer Segmentation (RFM Analysis)
+- **At Risk (1,907):** Largest segment - high-frequency buyers who've stopped purchasing
+- **Promising (1,519):** Recent buyers with growth potential
+- **Loyal Customers (1,275):** Consistent repeat purchasers
+- **Lost (446):** Previously active, now inactive - difficult to recover
+- **Regular (388):** Moderate engagement
+- **Champions (346):** Highest value - recent, frequent, high-spending customers
 
-### Operational Efficiency
-- **Cancellation rate stable** at 2-3% of transactions
-- December 2011 shows **33.9% revenue impact** from high-value order cancellations
-- Paper chain kits show **strongest product affinity** (69 co-purchases)
-- Hand warmer and hot water bottle products dominate bundling patterns
+### Product Insights
+- **Paper chain kits** show strongest product affinity (69 co-purchases in Dec 2011)
+- **Hand warmer products** dominate bundling patterns with 4+ pairing combinations
+- **Holiday/seasonal items** drive December purchase behavior
+- Gift sets and coordinated products create natural bundling opportunities
 
 ---
 
 ## 💻 Technical Implementation
 
+### Dashboard Architecture
+**Single-page executive dashboard** designed for at-a-glance business insights:
+- **2x2 grid layout** with cohort heatmap as hero visualization
+- **5 KPI cards** displaying key business metrics
+- **4 core visualizations** covering retention, revenue, segmentation, and product analysis
+- **Blue color theme** with cohesive visual design
+- **Optimized for desktop viewing** (1920x1080 or 1366x768)
+
+### Data Pipeline
+1. **PostgreSQL**: 7 advanced SQL queries for data extraction and transformation
+2. **CSV Export**: Query results exported for visualization
+3. **Tableau**: 4 visualizations built from query outputs
+4. **Dashboard Assembly**: Single-page layout with executive KPIs
+
 ### SQL Techniques Demonstrated
 
-**Advanced Window Functions:**
+#### Advanced Window Functions:
 ```sql
 -- Year-over-year growth using LAG
 WITH monthly_revenue AS (
@@ -144,7 +156,7 @@ SELECT
 FROM monthly_revenue;
 ```
 
-**Customer Segmentation with NTILE:**
+#### Customer Segmentation with NTILE:
 ```sql
 -- RFM scoring using quintile-based window functions
 WITH customer_metrics AS (
@@ -165,7 +177,7 @@ SELECT
 FROM customer_metrics;
 ```
 
-**Complex Multi-Level CTEs:**
+#### Complex Multi-Level CTEs:
 ```sql
 -- 4-level CTE for cohort retention analysis
 WITH first_purchase AS (
@@ -213,7 +225,7 @@ FROM retention_data
 ORDER BY cohort_month, months_since_first;
 ```
 
-**Self-Joins for Market Basket Analysis:**
+#### Self-Joins for Market Basket Analysis:
 ```sql
 -- Product affinity using self-join
 WITH filtered_transactions AS (
@@ -237,7 +249,7 @@ ORDER BY times_bought_together DESC
 LIMIT 20;
 ```
 
-**Conditional Aggregations:**
+#### Conditional Aggregations:
 ```sql
 -- Cancellation analysis with conditional aggregation
 SELECT 
@@ -254,25 +266,24 @@ ORDER BY month;
 ```
 
 ### Queries Included
-
-1. **Monthly Revenue Trends** - YoY growth with LAG window function
-2. **RFM Customer Segmentation** - NTILE-based customer classification
-3. **Product Affinity Analysis** - Self-join market basket analysis
-4. **Customer Cohort Retention** - Complex multi-CTE retention calculation
-5. **Top Customers by Country** - Geographic revenue aggregation
-6. **Cancellation Analysis** - Conditional aggregations for impact measurement
-7. **Rolling Revenue Averages** - ROWS BETWEEN window frame for smoothing
+1. **Monthly Revenue Trends** - YoY growth with LAG window function *(Visualized)*
+2. **RFM Customer Segmentation** - NTILE-based customer classification *(Visualized)*
+3. **Product Affinity Analysis** - Self-join market basket analysis *(Visualized)*
+4. **Customer Cohort Retention** - Complex multi-CTE retention calculation *(Visualized)*
+5. **Top Customers by Country** - Geographic revenue aggregation *(Portfolio depth)*
+6. **Cancellation Analysis** - Conditional aggregations for impact measurement *(Portfolio depth)*
+7. **Rolling Revenue Averages** - ROWS BETWEEN window frame for smoothing *(Portfolio depth)*
 
 ---
 
 ## 📊 Data Schema
 
-**Dataset:** Online Retail II (Kaggle)
+**Dataset:** [Online Retail II (Kaggle)](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci)
 
-**Key Tables:**
+### Key Tables:
 - `transactions` - Main fact table with 1M+ records
 
-**Key Fields:**
+### Key Fields:
 - `invoice` - Unique transaction ID (prefix 'C' indicates cancellation)
 - `stock_code` - Product identifier
 - `description` - Product name
@@ -303,7 +314,7 @@ cd ecommerce-analytics-dashboard
 ```
 
 2. **Download the dataset:**
-   - [Online Retail II UCI (Kaggle)](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci/data)
+   - [Online Retail II UCI (Kaggle)](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci)
 
 3. **Load data into PostgreSQL:**
 ```sql
@@ -326,9 +337,9 @@ COPY transactions FROM '/path/to/data.csv' DELIMITER ',' CSV HEADER;
    - Execute queries in order (01-07)
    - Export results as CSV
 
-5. **Open Tableau workbook:**
-   - Download from Tableau Public (link above)
-   - Or rebuild using exported CSVs
+5. **View Dashboard:**
+   - [Open on Tableau Public](https://public.tableau.com/shared/32F2PJMGT?:display_count=n&:origin=viz_share_link)
+   - Or download the `.twbx` file and open in Tableau Desktop
 
 ---
 
@@ -336,45 +347,40 @@ COPY transactions FROM '/path/to/data.csv' DELIMITER ',' CSV HEADER;
 ```
 ecommerce-analytics-dashboard/
 ├── README.md                           # Project documentation
-├── sql/                                # SQL analysis queries
-│   ├── 01_monthly_revenue_trends.sql
-│   ├── 02_rfm_customer_segmentation.sql
-│   ├── 03_product_affinity_analysis.sql
-│   ├── 04_customer_cohort_retention.sql
-│   ├── 05_top_customers_by_country.sql
-│   ├── 06_cancellation_analysis.sql
-│   └── 07_rolling_revenue_averages.sql
-└── retail-analysis-project/
-    └── images/                         # Dashboard screenshots
-        ├── home_page.png
-        ├── customer_retention.png
-        ├── revenue_performance.png
-        ├── customer_segmentation.png
-        └── product_operations.png
+├── sql/                                # SQL analysis queries (7 total)
+│   ├── 01_monthly_revenue_trends.sql          # Visualized on dashboard
+│   ├── 02_rfm_customer_segmentation.sql       # Visualized on dashboard
+│   ├── 03_product_affinity_analysis.sql       # Visualized on dashboard
+│   ├── 04_customer_cohort_retention.sql       # Visualized on dashboard
+│   ├── 05_top_customers_by_country.sql        # Portfolio depth
+│   ├── 06_cancellation_analysis.sql           # Portfolio depth
+│   └── 07_rolling_revenue_averages.sql        # Portfolio depth
+└── images/                             # Dashboard screenshots
+    └── dashboard_main.png              # Full dashboard view
 ```
 
 ---
 
 ## 🎯 Skills Demonstrated
 
-**Technical Skills:**
-- Advanced SQL (CTEs, Window Functions, Self-Joins, Complex Aggregations)
-- Data Visualization (Tableau dashboards, heatmaps, dual-axis charts)
-- Business Intelligence & Analytics
-- Data Storytelling & Communication
+### Technical Skills:
+- **Advanced SQL:** CTEs, Window Functions (LAG, NTILE, ROW_NUMBER), Self-Joins, Complex Aggregations
+- **Data Visualization:** Tableau dashboards, heatmaps, dual-axis charts, KPI design
+- **Business Intelligence & Analytics:** Dashboard design, executive reporting
+- **Data Storytelling & Communication:** Translating data into actionable insights
 
-**Business Acumen:**
-- Customer Segmentation (RFM methodology)
-- Cohort Analysis & Retention Metrics
-- Revenue Analysis & Forecasting
-- Market Basket Analysis
-- KPI Development
+### Business Acumen:
+- **Customer Segmentation:** RFM methodology implementation
+- **Cohort Analysis:** Retention metrics and churn identification
+- **Revenue Analysis:** YoY growth tracking and trend analysis
+- **Market Basket Analysis:** Product affinity and bundling strategies
+- **KPI Development:** Executive-level metric selection
 
-**Analytical Thinking:**
-- Identifying actionable insights from data
+### Analytical Thinking:
+- Identifying actionable insights from complex datasets
 - Translating business questions into SQL queries
 - Creating executive-level visualizations
-- Data-driven decision making
+- Data-driven decision making and prioritization
 
 ---
 
@@ -385,22 +391,27 @@ ecommerce-analytics-dashboard/
 - [ ] Real-time dashboard with automated data refresh
 - [ ] A/B testing framework for marketing campaigns
 - [ ] Product recommendation engine
+- [ ] Geographic expansion analysis
+- [ ] Seasonal forecasting models
 
 ---
 
 ## 📫 Contact
 
 **Erick Chung**
-- 📧 Email: echung428@gmail.com
-- 💼 LinkedIn: [linkedin.com/in/erick-chung](https://www.linkedin.com/in/erick-chung)
-- 📊 Tableau Public: [public.tableau.com/profile/erick.chung](https://public.tableau.com/app/profile/erick.chung)
+
+- 📧 Email: [echung428@gmail.com](mailto:echung428@gmail.com)
+- 💼 LinkedIn: [linkedin.com/in/erick-chung](https://linkedin.com/in/erick-chung)
+- 📊 Tableau Public: [public.tableau.com/profile/erick.chung](https://public.tableau.com/profile/erick.chung)
 - 💻 GitHub: [github.com/erick-chung](https://github.com/erick-chung)
 
 ---
 
 ## 📄 License & Attribution
 
-**Dataset:** [Online Retail II UCI (Kaggle)](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci/data)
+**Dataset:** [Online Retail II](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci) (UCI via Kaggle)
+
+**License:** This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
