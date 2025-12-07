@@ -2,8 +2,7 @@
 
 Comprehensive single-page analytics dashboard analyzing UK-based online retail transactions featuring customer retention, RFM segmentation, revenue trends, and product affinity analysis.
 
-[![Tableau](https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=Tableau&logoColor=white)](https://public.tableau.com/shared/32F2PJMGT?:display_count=n&:origin=viz_share_link)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+![Tableau](https://img.shields.io/badge/Tableau-E97627?style=flat-square&logo=Tableau&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=flat-square&logo=postgresql&logoColor=white)
 
 ## 🔗 [View Live Dashboard on Tableau Public](https://public.tableau.com/shared/32F2PJMGT?:display_count=n&:origin=viz_share_link)
 
@@ -43,7 +42,7 @@ This project analyzes **2 years of e-commerce transaction data** (Dec 2009 - Dec
 
 ## 🖼️ Dashboard Preview
 
-![E-Commerce Analytics Dashboard](retail-analysis-projects/images/dashboard.png)
+![E-Commerce Analytics Dashboard](retail-analysis-project/images/dashboard.png)
 
 ### Single-Page Executive Dashboard featuring:
 
@@ -333,7 +332,7 @@ COPY transactions FROM '/path/to/data.csv' DELIMITER ',' CSV HEADER;
 ```
 
 4. **Run SQL queries:**
-   - Navigate to `sql/` folder
+   - Navigate to `retail-analysis-project/sql/` folder
    - Execute queries in order (01-07)
    - Export results as CSV
 
@@ -347,15 +346,15 @@ COPY transactions FROM '/path/to/data.csv' DELIMITER ',' CSV HEADER;
 ```
 ecommerce-analytics-dashboard/
 ├── README.md                           # Project documentation
-├── sql/                                # SQL analysis queries (7 total)
-│   ├── 01_monthly_revenue_trends.sql          # Visualized on dashboard
-│   ├── 02_rfm_customer_segmentation.sql       # Visualized on dashboard
-│   ├── 03_product_affinity_analysis.sql       # Visualized on dashboard
-│   ├── 04_customer_cohort_retention.sql       # Visualized on dashboard
-│   ├── 05_top_customers_by_country.sql        # Portfolio depth
-│   ├── 06_cancellation_analysis.sql           # Portfolio depth
-│   └── 07_rolling_revenue_averages.sql        # Portfolio depth
-└── retail-analysis-projects/
+└── retail-analysis-project/            # Main project folder
+    ├── sql/                            # SQL analysis queries (7 total)
+    │   ├── 01_monthly_revenue_trends.sql          # Visualized on dashboard
+    │   ├── 02_rfm_customer_segmentation.sql       # Visualized on dashboard
+    │   ├── 03_product_affinity_analysis.sql       # Visualized on dashboard
+    │   ├── 04_customer_cohort_retention.sql       # Visualized on dashboard
+    │   ├── 05_top_customers_by_country.sql        # Portfolio depth
+    │   ├── 06_cancellation_analysis.sql           # Portfolio depth
+    │   └── 07_rolling_revenue_averages.sql        # Portfolio depth
     └── images/                         # Dashboard screenshots
         └── dashboard.png               # Full dashboard view
 ```
