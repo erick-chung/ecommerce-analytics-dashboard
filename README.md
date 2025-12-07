@@ -346,8 +346,8 @@ ORDER BY cohort_month, months_since_first;
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/YOUR_USERNAME/retail-analysis-project.git
-cd retail-analysis-project
+git clone https://github.com/erick-chung/ecommerce-analytics-dashboard.git
+cd ecommerce-analytics-dashboard
 ```
 
 2. **Download the dataset:**
@@ -370,7 +370,7 @@ COPY transactions FROM '/path/to/data.csv' DELIMITER ',' CSV HEADER;
 ```
 
 4. **Run SQL queries:**
-   - Navigate to `sql/` folder
+   - Navigate to `retail-analysis-project/sql/` folder
    - Execute queries in order (01-07)
    - Export results as CSV
 
@@ -382,17 +382,18 @@ COPY transactions FROM '/path/to/data.csv' DELIMITER ',' CSV HEADER;
 
 ## 📁 Repository Structure
 ```
-retail-analysis-project/
-├── sql/                                # SQL analysis queries (7 total)
-│   ├── 01_monthly_revenue_trends.sql          # Visualized on dashboard
-│   ├── 02_rfm_customer_segmentation.sql       # Visualized on dashboard
-│   ├── 03_product_affinity_analysis.sql       # Visualized on dashboard
-│   ├── 04_customer_cohort_retention.sql       # Visualized on dashboard
-│   ├── 05_top_customers_by_country.sql        # Portfolio depth
-│   ├── 06_cancellation_analysis.sql           # Portfolio depth
-│   └── 07_rolling_revenue_averages.sql        # Portfolio depth
-└── images/                             # Dashboard screenshots
-    └── dashboard.png                   # Full dashboard view
+ecommerce-analytics-dashboard/
+└── retail-analysis-project/            # Main project folder
+    ├── sql/                            # SQL analysis queries (7 total)
+    │   ├── 01_monthly_revenue_trends.sql          # Visualized on dashboard
+    │   ├── 02_rfm_customer_segmentation.sql       # Visualized on dashboard
+    │   ├── 03_product_affinity_analysis.sql       # Visualized on dashboard
+    │   ├── 04_customer_cohort_retention.sql       # Visualized on dashboard
+    │   ├── 05_top_customers_by_country.sql        # Portfolio depth
+    │   ├── 06_cancellation_analysis.sql           # Portfolio depth
+    │   └── 07_rolling_revenue_averages.sql        # Portfolio depth
+    └── images/                         # Dashboard screenshots
+        └── dashboard.png               # Full dashboard view
 ```
 
 ---
