@@ -10,18 +10,18 @@ Comprehensive single-page analytics dashboard analyzing UK-based online retail t
 ---
 
 ## 📋 Table of Contents
-- [Project Overview](#project-overview)
-- [Dashboard Preview](#dashboard-preview)
-- [Business Questions](#business-questions)
-- [Key Insights](#key-insights)
-- [Technical Implementation](#technical-implementation)
-- [Data Schema](#data-schema)
-- [Installation & Usage](#installation--usage)
-- [Repository Structure](#repository-structure)
-- [Skills Demonstrated](#skills-demonstrated)
-- [Future Enhancements](#future-enhancements)
-- [Contact](#contact)
-- [License & Attribution](#license--attribution)
+- [Project Overview](#-project-overview)
+- [Dashboard Preview](#%EF%B8%8F-dashboard-preview)
+- [Business Questions](#-business-questions)
+- [Key Insights](#-key-insights)
+- [Technical Implementation](#-technical-implementation)
+- [Data Schema](#-data-schema)
+- [Installation & Usage](#-installation--usage)
+- [Repository Structure](#-repository-structure)
+- [Skills Demonstrated](#-skills-demonstrated)
+- [Future Enhancements](#-future-enhancements)
+- [Contact](#-contact)
+- [License & Attribution](#-license--attribution)
 
 ---
 
@@ -43,7 +43,7 @@ This project analyzes **2 years of e-commerce transaction data** (Dec 2009 - Dec
 
 ## 🖼️ Dashboard Preview
 
-![E-Commerce Analytics Dashboard](images/dashboard_main.png)
+![E-Commerce Analytics Dashboard](retail-analysis-projects/images/dashboard.png)
 
 ### Single-Page Executive Dashboard featuring:
 
@@ -355,8 +355,9 @@ ecommerce-analytics-dashboard/
 │   ├── 05_top_customers_by_country.sql        # Portfolio depth
 │   ├── 06_cancellation_analysis.sql           # Portfolio depth
 │   └── 07_rolling_revenue_averages.sql        # Portfolio depth
-└── images/                             # Dashboard screenshots
-    └── dashboard_main.png              # Full dashboard view
+└── retail-analysis-projects/
+    └── images/                         # Dashboard screenshots
+        └── dashboard.png               # Full dashboard view
 ```
 
 ---
