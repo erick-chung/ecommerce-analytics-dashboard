@@ -444,11 +444,9 @@ ecommerce-analytics-dashboard/
 
 ---
 
-## 📄 License & Attribution
+## 📄 Acknowledgements
 
 **Dataset:** [Online Retail II](https://www.kaggle.com/datasets/mashlyn/online-retail-ii-uci) (UCI via Kaggle)
-
-**License:** This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
